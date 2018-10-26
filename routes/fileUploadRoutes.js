@@ -67,7 +67,8 @@ router.post("/upload", upload.single("file"), function(req, res) {
       res.send({ data });
       var newFileUploaded = {
         description: req.body.description,
-        fileLink: s3FileURL + file.originalname
+        fileLink: s3FileURL + file.originalname,
+        s3_key: params.Key
       };
       var document = new DOCUMENT(newFileUploaded);
       document.save(function(error, newFile) {
@@ -101,10 +102,29 @@ router.route("/:id").delete((req, res, next) => {
     if (err) {
       return next(err);
     }
-    res.send({
-      status: "200",
-      responseType: "string",
-      response: "success"
+    //Now Delete the file from AWS-S3
+    // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#deleteObject-property
+    let s3bucket = new AWS.S3({
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      region: process.env.AWS_REGION
+    });
+
+    let params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: result.s3_key
+    };
+
+    s3bucket.deleteObject(params, (err, data) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send({
+          status: "200",
+          responseType: "string",
+          response: "success"
+        });
+      }
     });
   });
 });
