@@ -22,6 +22,15 @@
         "react-scripts": "2.0.5",
         "reactstrap": "^6.5.0"
     },
+    "keywords": [
+    "nodejs",
+    "react",
+    "mongodb",
+    "multer",
+    "aws-sdk",
+    "AWS-S3"
+
+  ],
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
