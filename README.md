@@ -2,7 +2,9 @@ The source code for my **[Medium Blog](https://medium.com/@paulrohan/file-upload
 
 A simple boilerplate project to implement AWS S3 file upload functionality in a Node, React and Mongo app. Using Multer for uploading file.
 
-To launch this project in the local machine
+The `master` branch has the code for AWS-S3 upload and the `disk-storage` branch has the working app for uploading file to the project root at the disk with no AWS-s3 connection.
+
+### To launch this project in the local machine
 
 First start mongodb service with `sudo service mongod start` and then the following commands
 
