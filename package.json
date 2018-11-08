@@ -29,7 +29,6 @@
     "multer",
     "aws-sdk",
     "AWS-S3"
-
   ],
     "scripts": {
         "start": "react-scripts start",
