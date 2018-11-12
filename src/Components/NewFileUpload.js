@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-
 import { Card, CardHeader, CardText, CardBody, Row, Col } from "reactstrap";
 
 const endpoint = "http://localhost:8080/api/document/upload";
