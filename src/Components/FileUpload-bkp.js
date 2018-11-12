@@ -2,54 +2,10 @@ import React, { Component } from "react";
 import { Row, Col, Card, CardHeader, CardText, CardBody } from "reactstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import "antd/dist/antd.css";
-import { Button, Modal, Form, Input, Radio } from "antd";
-import CollectionCreateForm from "../modals/CollectionCreateForm";
 
 class FileUpload extends Component {
   state = {
-    documents: [],
-    visible: false
-  };
-
-  state = {
-    documents: [],
-    visible: false
-  };
-
-  showModal = () => {
-    this.setState({ visible: true });
-  };
-
-  handleCancel = () => {
-    this.setState({ visible: false });
-  };
-
-  saveFormRef = formRef => {
-    this.formRef = formRef;
-  };
-
-  showFile = () => {
-    const form = this.formRef.props.form;
-    form.validateFields((err, values) => {
-      if (err) {
-        return;
-      }
-
-      // console.log("Received values of form: ", values, documentpath);
-      form.resetFields();
-      // this.props.history.push(`${documentpath}`);
-      this.setState({
-        visible: false
-      });
-      //   this.props.history.push(`${documentpath}`);
-
-      //   console.log(documentpath);
-
-      //   return (
-      //     <a href={`http://localhost:3000${documentpath}`} target="_blank" />
-      //   );
-    });
+    documents: []
   };
 
   deleteDocument = id => {
@@ -96,6 +52,7 @@ class FileUpload extends Component {
      ["./1541656477973-file.pdf", "./1541671735212-file.jpeg"]
 
      And all importAll() is doing is replacing the "./" with empty space and returing the 'images' array.
+
  */
 
     const images = this.importAll(webpackContext);
@@ -119,16 +76,9 @@ class FileUpload extends Component {
                         <td>{document.document_id}</td>
                         <td>{document.description}</td>
                         <td>
-                          <Button type="primary" onClick={this.showModal}>
+                          <a href={images[`${document.path}`]} target="_blank">
                             View File
-                          </Button>
-                          <CollectionCreateForm
-                            wrappedComponentRef={this.saveFormRef}
-                            visible={this.state.visible}
-                            onCancel={this.handleCancel}
-                            letUserViewFile={this.showFile}
-                            documentLink={`${document.path}`}
-                          />
+                          </a>
                         </td>
                         <td>
                           <Link

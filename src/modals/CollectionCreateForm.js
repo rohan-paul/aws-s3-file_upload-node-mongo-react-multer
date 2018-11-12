@@ -1,9 +1,18 @@
 import React, { Component } from "react";
 import "antd/dist/antd.css";
 import { Button, Modal, Form, Input, Radio } from "antd";
-import { withRouter, Route, BrowserRouter, Router } from "react-router-dom";
-import history from "../history";
-import axios from "axios";
+// import {
+//   Link,
+//   withRouter,
+//   Route,
+//   BrowserRouter,
+//   Router
+// } from "react-router-dom";
+
+// to use history.push I need the 'history' library
+import { createBrowserHistory } from "history";
+
+const history = createBrowserHistory();
 
 const FormItem = Form.Item;
 
@@ -12,17 +21,20 @@ const CollectionCreateForm = Form.create()(
     state = {
       documents: []
     };
+
     onClick = e => {
       e.preventDefault();
       console.log(this.props.documentLink);
       this.props.letUserViewFile();
+      history.push(this.props.documentLink);
+      window.location.reload();
     };
 
-    componentDidMount() {
-      axios.get("/api/document").then(res => {
-        this.setState({ documents: res.data });
-      });
-    }
+    // onClick = e => {
+    //   e.preventDefault();
+    //   console.log(this.props.documentLink);
+    //   this.props.letUserViewFile(this.props.documentLink);
+    // };
 
     importAll = result => {
       let images = {};
@@ -83,21 +95,11 @@ const CollectionCreateForm = Form.create()(
                 </Radio.Group>
               )}
             </FormItem>
-            <a
-              href={`http://localhost:3000${this.props.letUserViewFile}`}
-              target="_blank"
-              onClick={this.onClick}
-            >
-              Click me
-            </a>
-            />
           </Form>
         </Modal>
       );
     }
   }
 );
-
-// const ShowCollectionCreateForm = withRouter(CollectionCreateForm);
 
 export default CollectionCreateForm;

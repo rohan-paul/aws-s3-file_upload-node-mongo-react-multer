@@ -6,12 +6,12 @@ import "antd/dist/antd.css";
 import { Button, Modal, Form, Input, Radio } from "antd";
 import CollectionCreateForm from "../modals/CollectionCreateForm";
 
-class FileUpload extends Component {
-  state = {
-    documents: [],
-    visible: false
-  };
+// to use history.push I need the 'history' library
+import { createBrowserHistory } from "history";
 
+const history = createBrowserHistory();
+
+class FileUpload extends Component {
   state = {
     documents: [],
     visible: false
@@ -35,20 +35,12 @@ class FileUpload extends Component {
       if (err) {
         return;
       }
-
-      // console.log("Received values of form: ", values, documentpath);
       form.resetFields();
-      // this.props.history.push(`${documentpath}`);
       this.setState({
         visible: false
       });
-      //   this.props.history.push(`${documentpath}`);
-
-      //   console.log(documentpath);
-
-      //   return (
-      //     <a href={`http://localhost:3000${documentpath}`} target="_blank" />
-      //   );
+      //   history.push(`${file}`);
+      //   window.location.reload();
     });
   };
 
@@ -99,6 +91,9 @@ class FileUpload extends Component {
  */
 
     const images = this.importAll(webpackContext);
+
+    // console.log(images);
+
     return (
       <div className="bg-success">
         <Col xs="8">
@@ -118,6 +113,8 @@ class FileUpload extends Component {
                       <tr>
                         <td>{document.document_id}</td>
                         <td>{document.description}</td>
+                        <td>{images[document.path]}</td>
+
                         <td>
                           <Button type="primary" onClick={this.showModal}>
                             View File
@@ -127,8 +124,9 @@ class FileUpload extends Component {
                             visible={this.state.visible}
                             onCancel={this.handleCancel}
                             letUserViewFile={this.showFile}
-                            documentLink={`${document.path}`}
+                            documentLink={images[document.path]}
                           />
+                          {console.log(images[document.path])}
                         </td>
                         <td>
                           <Link
@@ -180,3 +178,9 @@ class FileUpload extends Component {
 }
 
 export default FileUpload;
+
+/* Problem is the below withing the map function is printing both the paths and the latest is being passed down to the CollectionCreateForm.js
+
+{console.log(images[document.path])}
+
+*/
