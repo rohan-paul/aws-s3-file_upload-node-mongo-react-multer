@@ -109,24 +109,26 @@ class FileUpload extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.documents.map(document => (
+                    {this.state.documents.map((document, idx) => (
                       <tr>
+                        key={idx}
                         <td>{document.document_id}</td>
                         <td>{document.description}</td>
                         <td>{images[document.path]}</td>
-
                         <td>
                           <Button type="primary" onClick={this.showModal}>
                             View File
+                            {console.log(images[document.path])}
                           </Button>
+
                           <CollectionCreateForm
+                            key={idx}
                             wrappedComponentRef={this.saveFormRef}
                             visible={this.state.visible}
                             onCancel={this.handleCancel}
                             letUserViewFile={this.showFile}
                             documentLink={images[document.path]}
                           />
-                          {console.log(images[document.path])}
                         </td>
                         <td>
                           <Link
