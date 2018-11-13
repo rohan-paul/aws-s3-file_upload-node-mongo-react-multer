@@ -2,46 +2,10 @@ import React, { Component } from "react";
 import { Row, Col, Card, CardHeader, CardText, CardBody } from "reactstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import "antd/dist/antd.css";
-import { Button, Modal, Form, Input, Radio } from "antd";
-import CollectionCreateForm from "../modals/CollectionCreateForm";
-
-// to use history.push I need the 'history' library
-import { createBrowserHistory } from "history";
-
-const history = createBrowserHistory();
 
 class FileUpload extends Component {
   state = {
-    documents: [],
-    visible: false
-  };
-
-  showModal = () => {
-    this.setState({ visible: true });
-  };
-
-  handleCancel = () => {
-    this.setState({ visible: false });
-  };
-
-  saveFormRef = formRef => {
-    this.formRef = formRef;
-  };
-
-  showFile = () => {
-    const form = this.formRef.props.form;
-    form.validateFields((err, values) => {
-      if (err) {
-        return;
-      }
-      form.resetFields();
-      this.setState({
-        visible: false
-      });
-      //   history.push(`${file}`);
-      //   window.location.reload();
-    });
+    documents: []
   };
 
   deleteDocument = id => {
@@ -88,12 +52,10 @@ class FileUpload extends Component {
      ["./1541656477973-file.pdf", "./1541671735212-file.jpeg"]
 
      And all importAll() is doing is replacing the "./" with empty space and returing the 'images' array.
+
  */
 
     const images = this.importAll(webpackContext);
-
-    // console.log(images);
-
     return (
       <div className="bg-success">
         <Col xs="8">
@@ -109,24 +71,14 @@ class FileUpload extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.documents.map((document, idx) => (
+                    {this.state.documents.map(document => (
                       <tr>
                         <td>{document.document_id}</td>
                         <td>{document.description}</td>
-                        <td>{images[document.path]}</td>
                         <td>
-                          <Button type="primary" onClick={this.showModal}>
+                          <a href={images[`${document.path}`]} target="_blank">
                             View File
-                          </Button>
-
-                          <CollectionCreateForm
-                            key={idx}
-                            wrappedComponentRef={this.saveFormRef}
-                            visible={this.state.visible}
-                            onCancel={this.handleCancel}
-                            letUserViewFile={this.showFile}
-                            documentLink={images[document.path]}
-                          />
+                          </a>
                         </td>
                         <td>
                           <Link
@@ -178,8 +130,3 @@ class FileUpload extends Component {
 }
 
 export default FileUpload;
-
-/*
-documentLink={images[document.path]}
-
-*/
