@@ -111,14 +111,12 @@ class FileUpload extends Component {
                   <tbody>
                     {this.state.documents.map((document, idx) => (
                       <tr>
-                        key={idx}
                         <td>{document.document_id}</td>
                         <td>{document.description}</td>
                         <td>{images[document.path]}</td>
                         <td>
                           <Button type="primary" onClick={this.showModal}>
                             View File
-                            {console.log(images[document.path])}
                           </Button>
 
                           <CollectionCreateForm
