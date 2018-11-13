@@ -2,14 +2,11 @@ import React, { Component } from "react";
 import { Row, Col, Card, CardHeader, CardText, CardBody } from "reactstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
+import "antd/dist/antd.css";
+import { Button, Modal, Form, Input, Radio } from "antd";
+import CollectionCreateForm from "../modals/CollectionCreateForm";
 
+// to use history.push I need the 'history' library
 import { createBrowserHistory } from "history";
 
 const history = createBrowserHistory();
@@ -17,19 +14,34 @@ const history = createBrowserHistory();
 class FileUpload extends Component {
   state = {
     documents: [],
-    open: false
+    visible: false
   };
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
+  showModal = () => {
+    this.setState({ visible: true });
   };
 
-  handleClose = fileLink => {
-    this.setState({
-      open: false
+  handleCancel = () => {
+    this.setState({ visible: false });
+  };
+
+  saveFormRef = formRef => {
+    this.formRef = formRef;
+  };
+
+  showFile = () => {
+    const form = this.formRef.props.form;
+    form.validateFields((err, values) => {
+      if (err) {
+        return;
+      }
+      form.resetFields();
+      this.setState({
+        visible: false
+      });
+      //   history.push(`${file}`);
+      //   window.location.reload();
     });
-    history.push(`${fileLink}`);
-    window.location.reload();
   };
 
   deleteDocument = id => {
@@ -76,11 +88,11 @@ class FileUpload extends Component {
      ["./1541656477973-file.pdf", "./1541671735212-file.jpeg"]
 
      And all importAll() is doing is replacing the "./" with empty space and returing the 'images' array.
-
  */
 
     const images = this.importAll(webpackContext);
-    console.log(images);
+
+    // console.log(images);
 
     return (
       <div className="bg-success">
@@ -97,53 +109,24 @@ class FileUpload extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.documents.map(document => (
+                    {this.state.documents.map((document, idx) => (
                       <tr>
                         <td>{document.document_id}</td>
                         <td>{document.description}</td>
+                        <td>{images[document.path]}</td>
                         <td>
-                          <Button onClick={this.handleClickOpen}>
-                            Download file
+                          <Button type="primary" onClick={this.showModal}>
+                            View File
                           </Button>
-                          <Dialog
-                            open={this.state.open}
-                            onClose={this.handleClose}
-                            aria-labelledby="form-dialog-title"
-                          >
-                            <DialogTitle id="form-dialog-title">
-                              Required Information
-                            </DialogTitle>
-                            <DialogContent>
-                              <DialogContentText>
-                                Update these info to download the file
-                              </DialogContentText>
-                              <TextField
-                                autoFocus
-                                margin="dense"
-                                id="name"
-                                label="Email Address"
-                                type="email"
-                                fullWidth
-                              />
-                            </DialogContent>
-                            <DialogActions>
-                              <Button
-                                onClick={this.handleClose}
-                                color="primary"
-                              >
-                                Cancel
-                              </Button>
-                              <Button
-                                onClick={this.handleClose.bind(
-                                  this,
-                                  images[`${document.path}`]
-                                )}
-                                color="primary"
-                              >
-                                Download file
-                              </Button>
-                            </DialogActions>
-                          </Dialog>
+
+                          <CollectionCreateForm
+                            key={idx}
+                            wrappedComponentRef={this.saveFormRef}
+                            visible={this.state.visible}
+                            onCancel={this.handleCancel}
+                            letUserViewFile={this.showFile}
+                            documentLink={images[document.path]}
+                          />
                         </td>
                         <td>
                           <Link
@@ -196,5 +179,7 @@ class FileUpload extends Component {
 
 export default FileUpload;
 
-// http://localhost:3000/static/media/1542037580268-file.a03c8981.pdf
-// {images[`${document.path}`]}
+/*
+documentLink={images[document.path]}
+
+*/

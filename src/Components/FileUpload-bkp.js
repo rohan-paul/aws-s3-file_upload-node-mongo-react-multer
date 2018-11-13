@@ -2,17 +2,6 @@ import React, { Component } from "react";
 import { Row, Col, Card, CardHeader, CardText, CardBody } from "reactstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-
-import { createBrowserHistory } from "history";
-
-const history = createBrowserHistory();
 
 class FileUpload extends Component {
   state = {
@@ -24,12 +13,8 @@ class FileUpload extends Component {
     this.setState({ open: true });
   };
 
-  handleClose = fileLink => {
-    this.setState({
-      open: false
-    });
-    history.push(`${fileLink}`);
-    window.location.reload();
+  handleClose = () => {
+    this.setState({ open: false });
   };
 
   deleteDocument = id => {
@@ -80,8 +65,6 @@ class FileUpload extends Component {
  */
 
     const images = this.importAll(webpackContext);
-    console.log(images);
-
     return (
       <div className="bg-success">
         <Col xs="8">
@@ -102,48 +85,9 @@ class FileUpload extends Component {
                         <td>{document.document_id}</td>
                         <td>{document.description}</td>
                         <td>
-                          <Button onClick={this.handleClickOpen}>
-                            Download file
-                          </Button>
-                          <Dialog
-                            open={this.state.open}
-                            onClose={this.handleClose}
-                            aria-labelledby="form-dialog-title"
-                          >
-                            <DialogTitle id="form-dialog-title">
-                              Required Information
-                            </DialogTitle>
-                            <DialogContent>
-                              <DialogContentText>
-                                Update these info to download the file
-                              </DialogContentText>
-                              <TextField
-                                autoFocus
-                                margin="dense"
-                                id="name"
-                                label="Email Address"
-                                type="email"
-                                fullWidth
-                              />
-                            </DialogContent>
-                            <DialogActions>
-                              <Button
-                                onClick={this.handleClose}
-                                color="primary"
-                              >
-                                Cancel
-                              </Button>
-                              <Button
-                                onClick={this.handleClose.bind(
-                                  this,
-                                  images[`${document.path}`]
-                                )}
-                                color="primary"
-                              >
-                                Download file
-                              </Button>
-                            </DialogActions>
-                          </Dialog>
+                          <a href={images[`${document.path}`]} target="_blank">
+                            View File
+                          </a>
                         </td>
                         <td>
                           <Link
@@ -195,6 +139,3 @@ class FileUpload extends Component {
 }
 
 export default FileUpload;
-
-// http://localhost:3000/static/media/1542037580268-file.a03c8981.pdf
-// {images[`${document.path}`]}
