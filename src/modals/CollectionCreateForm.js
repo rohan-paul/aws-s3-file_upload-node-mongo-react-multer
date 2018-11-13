@@ -18,58 +18,14 @@ const FormItem = Form.Item;
 
 const CollectionCreateForm = Form.create()(
   class extends React.Component {
-    state = {
-      documents: []
-    };
-
-    // onClick = (doxlink, e) => {
-    //   doxlink = this.props.documentLink;
-    //   e.preventDefault();
-    //   console.log(this.props.documentLink);
-    //   this.props.letUserViewFile();
-    //   history.push(doxlink);
-    //   //   history.push(this.props.documentLink);
-    //   window.location.reload();
-    // };
-
-    // onClick = e => {
-    //   const doxlink = this.props.documentLink;
-    //   e.preventDefault();
-    //   console.log(this.props.documentLink);
-    //   this.props.letUserViewFile();
-
-    //   history.push(doxlink);
-    //   //   history.push(this.props.documentLink);
-    //   window.location.reload();
-    // };
-
-    onClick = e => {
-      e.preventDefault();
+    renderFile = doxLink => {
       this.props.letUserViewFile();
-      //   this.props.letUserViewFile(this.props.documentLink);
-      history.push(this.props.documentLink);
+      //   history.push(`/static/media/${this.props.documentLink}`);
+      history.push(doxLink);
       window.location.reload();
     };
 
-    // importAll = result => {
-    //   let images = {};
-    //   result.keys().map((item, index) => {
-    //     return (images[item.replace("./", "")] = result(item));
-    //   });
-    //   return images;
-    // };
-
     render() {
-      //   const webpackContext = require.context(
-      //     "../../uploads/",
-      //     false,
-      //     /\.(png|jpe?g|svg|pdf|doc|odt)$/
-      //   );
-
-      //   const images = this.importAll(webpackContext);
-
-      const doxlink = this.props.documentLink;
-
       console.log(this.props.documentLink);
 
       const {
@@ -88,7 +44,7 @@ const CollectionCreateForm = Form.create()(
           title="Create a new collection"
           okText="Download Document / Submit for next action"
           onCancel={onCancel}
-          onOk={this.onClick}
+          onOk={this.renderFile.bind(this, this.props.documentLink)}
         >
           <Form layout="vertical">
             <FormItem label="Title">

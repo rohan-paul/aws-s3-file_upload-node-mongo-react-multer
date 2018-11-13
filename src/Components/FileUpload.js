@@ -179,8 +179,7 @@ class FileUpload extends Component {
 
 export default FileUpload;
 
-/* Problem is the below withing the map function is printing both the paths and the latest is being passed down to the CollectionCreateForm.js
-
-{console.log(images[document.path])}
+/*
+documentLink={images[document.path]}
 
 */

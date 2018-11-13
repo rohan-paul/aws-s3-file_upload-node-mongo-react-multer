@@ -23,3 +23,16 @@ It will start the server at [http://localhost:3000/](http://localhost:3000/)
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 [NOTE ONLY FOR ME - I HAVE TO ENTER ALL DETAILS IN .env FILE AGAIN AS I HAVE DELETED THE S3-BUCKET ]
+
+PROBLEM WITH BRANCH 'disk-storage-ant-design-modal' - The modal is rendering only the last file. So when I am passing document path link from FileUpload.js to the child CollectionCreate.js with the below code, there's some problem there itself.
+
+```js
+<CollectionCreateForm
+  key={idx}
+  wrappedComponentRef={this.saveFormRef}
+  visible={this.state.visible}
+  onCancel={this.handleCancel}
+  letUserViewFile={this.showFile}
+  documentLink={images[document.path]}
+/>
+```
