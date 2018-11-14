@@ -3,33 +3,33 @@ import { Row, Col, Card, CardHeader, CardText, CardBody } from "reactstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-
-import { createBrowserHistory } from "history";
-
-const history = createBrowserHistory();
+import RenderFile from "./RenderFile";
 
 class FileUpload extends Component {
   state = {
     documents: [],
-    open: false
+    clicked: false,
+    textBeforeDownload: "View/Download"
   };
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
+  /*
+  A> In above, I am requiring a context with files from the 'documents' directory that can be required with a request endings with .png .jpeg .svg etc .
 
-  handleClose = fileLink => {
+  B> And the final returned object ( after searching the directory ) from the require.context is passed as the argument to importAll()
+
+  C> So,console.log(webpackContext.keys()); will print the below
+
+   ["./1541656477973-file.pdf", "./1541671735212-file.jpeg"]
+
+   And all importAll() is doing is replacing the "./" with empty space and returing the 'images' array.
+
+*/
+
+  launchRenderFileComp = () => {
     this.setState({
-      open: false
+      clicked: true,
+      textBeforeDownload: ""
     });
-    history.push(`${fileLink}`);
-    window.location.reload();
   };
 
   deleteDocument = id => {
@@ -60,28 +60,15 @@ class FileUpload extends Component {
   };
 
   render() {
+    const { documents } = this.state;
+
     const webpackContext = require.context(
       "../../uploads",
       false,
       /\.(png|jpe?g|svg|pdf|doc|odt)$/
     );
 
-    /*
-    A> In above, I am requiring a context with files from the 'documents' directory that can be required with a request endings with .png .jpeg .svg etc .
-
-    B> And the final returned object ( after searching the directory ) from the require.context is passed as the argument to importAll()
-
-    C> So,console.log(webpackContext.keys()); will print the below
-
-     ["./1541656477973-file.pdf", "./1541671735212-file.jpeg"]
-
-     And all importAll() is doing is replacing the "./" with empty space and returing the 'images' array.
-
- */
-
     const images = this.importAll(webpackContext);
-    console.log(images);
-
     return (
       <div className="bg-success">
         <Col xs="8">
@@ -97,53 +84,17 @@ class FileUpload extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.documents.map(document => (
+                    {documents.map(document => (
                       <tr>
                         <td>{document.document_id}</td>
                         <td>{document.description}</td>
                         <td>
-                          <Button onClick={this.handleClickOpen}>
-                            Download file
+                          <Button onClick={this.launchRenderFileComp}>
+                            {this.state.clicked ? (
+                              <RenderFile linkForRender={document.path} />
+                            ) : null}
+                            {this.state.textBeforeDownload}
                           </Button>
-                          <Dialog
-                            open={this.state.open}
-                            onClose={this.handleClose}
-                            aria-labelledby="form-dialog-title"
-                          >
-                            <DialogTitle id="form-dialog-title">
-                              Required Information
-                            </DialogTitle>
-                            <DialogContent>
-                              <DialogContentText>
-                                Update these info to download the file
-                              </DialogContentText>
-                              <TextField
-                                autoFocus
-                                margin="dense"
-                                id="name"
-                                label="Email Address"
-                                type="email"
-                                fullWidth
-                              />
-                            </DialogContent>
-                            <DialogActions>
-                              <Button
-                                onClick={this.handleClose}
-                                color="primary"
-                              >
-                                Cancel
-                              </Button>
-                              <Button
-                                onClick={this.handleClose.bind(
-                                  this,
-                                  images[`${document.path}`]
-                                )}
-                                color="primary"
-                              >
-                                Download file
-                              </Button>
-                            </DialogActions>
-                          </Dialog>
                         </td>
                         <td>
                           <Link
@@ -195,6 +146,3 @@ class FileUpload extends Component {
 }
 
 export default FileUpload;
-
-// http://localhost:3000/static/media/1542037580268-file.a03c8981.pdf
-// {images[`${document.path}`]}

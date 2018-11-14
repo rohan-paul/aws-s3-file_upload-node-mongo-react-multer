@@ -2,19 +2,33 @@ import React, { Component } from "react";
 import { Row, Col, Card, CardHeader, CardText, CardBody } from "reactstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Button from "@material-ui/core/Button";
+import RenderFile from "./RenderFile";
 
 class FileUpload extends Component {
   state = {
     documents: [],
-    open: false
+    open: false,
+    clicked: false
   };
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
+  /*
+  A> In above, I am requiring a context with files from the 'documents' directory that can be required with a request endings with .png .jpeg .svg etc .
 
-  handleClose = () => {
-    this.setState({ open: false });
+  B> And the final returned object ( after searching the directory ) from the require.context is passed as the argument to importAll()
+
+  C> So,console.log(webpackContext.keys()); will print the below
+
+   ["./1541656477973-file.pdf", "./1541671735212-file.jpeg"]
+
+   And all importAll() is doing is replacing the "./" with empty space and returing the 'images' array.
+
+*/
+
+  launchRenderFileComp = () => {
+    this.setState({
+      clicked: true
+    });
   };
 
   deleteDocument = id => {
@@ -45,24 +59,13 @@ class FileUpload extends Component {
   };
 
   render() {
+    const { documents } = this.state;
+
     const webpackContext = require.context(
       "../../uploads",
       false,
       /\.(png|jpe?g|svg|pdf|doc|odt)$/
     );
-
-    /*
-    A> In above, I am requiring a context with files from the 'documents' directory that can be required with a request endings with .png .jpeg .svg etc .
-
-    B> And the final returned object ( after searching the directory ) from the require.context is passed as the argument to importAll()
-
-    C> So,console.log(webpackContext.keys()); will print the below
-
-     ["./1541656477973-file.pdf", "./1541671735212-file.jpeg"]
-
-     And all importAll() is doing is replacing the "./" with empty space and returing the 'images' array.
-
- */
 
     const images = this.importAll(webpackContext);
     return (
@@ -80,14 +83,18 @@ class FileUpload extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.documents.map(document => (
+                    {documents.map(document => (
                       <tr>
                         <td>{document.document_id}</td>
                         <td>{document.description}</td>
                         <td>
-                          <a href={images[`${document.path}`]} target="_blank">
-                            View File
-                          </a>
+                          <Button onClick={this.launchRenderFileComp}>
+                            {this.state.clicked ? (
+                              <RenderFile linkForRender={document.path} />
+                            ) : null}
+                            Download file
+                          </Button>
+                          {images[`${document.path}`]}
                         </td>
                         <td>
                           <Link
