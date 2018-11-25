@@ -22,7 +22,7 @@ It will start the server at [http://localhost:3000/](http://localhost:3000/)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-### Example .env file (WHICH MUST NEVER BE PUSHED TO ANY PUBLICK REPOSITORY LIKE GITHUB )
+### Example .env file (WHICH MUST NEVER BE PUSHED TO ANY PUBLIC REPOSITORY LIKE GITHUB )
 
 <img src="example-env-file.png">
 
