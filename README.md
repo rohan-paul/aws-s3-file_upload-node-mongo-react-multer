@@ -22,7 +22,11 @@ It will start the server at [http://localhost:3000/](http://localhost:3000/)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-[NOTE ONLY FOR ME - I HAVE TO ENTER ALL DETAILS IN .env FILE AGAIN AS I HAVE DELETED THE S3-BUCKET ]
+### Example .env file (WHICH MUST NEVER BE PUSHED TO ANY PUBLICK REPOSITORY LIKE GITHUB )
+
+<img src="example-env-file.png">
+
+## ALWAYS PUT THIS .env FILE IN THE .gitignore FILE
 
 ### How to make the AWS-S3 bucket public - whithout which the upload will NOT work
 
@@ -50,14 +54,16 @@ So all the four options that was there (as on 24-Nov-2018) - I made all of them 
 
 And I will get back a 200 OK response of the below form-data
 
+```js
 {
-"data": {
-"ETag": "a number",
-"Location": "full link of the file",
-"key": "original file name of the file that I uploaded",
-"Key": "original file name of the file that I uploaded",
-"Bucket": "my AWS s3 bucket name"
+	"data": {
+	"ETag": "a number",
+	"Location": "full link of the file",
+	"key": "original file name of the file that I uploaded",
+	"Key": "original file name of the file that I uploaded",
+	"Bucket": "my AWS s3 bucket name"
+	}
 }
-}
+```
 
 [Small note on .env file - When putting the value for "AWS_Uploaded_File_URL_LINK" - I have to include a forward slash ("/") after ]
