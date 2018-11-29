@@ -50,6 +50,9 @@ router.post("/upload", upload.single("file"), function(req, res) {
     region: process.env.AWS_REGION
   });
 
+  console.log(process.env.AWS_ACCESS_KEY_ID);
+  console.log(process.env.AWS_SECRET_ACCESS_KEY);
+
   //Where you want to store your file
 
   var params = {

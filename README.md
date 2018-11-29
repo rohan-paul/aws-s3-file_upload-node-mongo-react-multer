@@ -67,3 +67,27 @@ And I will get back a 200 OK response of the below form-data
 ```
 
 [Small note on .env file - When putting the value for "AWS_Uploaded_File_URL_LINK" - I have to include a forward slash ("/") after ]
+
+## Huge Issue I faced after changing the AWS credentials - The upload was failing and in Postman was giving error sourse something like "The AWS Key is not a valid one"
+
+The app was taking old `process.env` variable rather than what I set inside the app in the .enf file - 29-Nov-2018
+
+The backend Route for document upload will not take what I was setting up in the .env file rathar was taking from a catch.
+
+So in the backend upload routes .js file I put the below to see what it was throwing.
+
+console.log(process.env.AWS_BUCKET_NAME);
+console.log(process.env.AWS_ACCESS_KEY_ID);
+console.log(process.env.AWS_SECRET_ACCESS_KEY);
+console.log(process.env.AWS_REGION);
+console.log(process.env.AWS_Uploaded_File_URL_LINK);
+
+And saw it was taking a completely wrong AWS credentials.
+
+Then I ran the command `unset AWS_ACCESS_KEY_ID`, which was deleting the key and after doing this unset, then running
+
+`echo $AWS_ACCESS_KEY_ID`
+
+was no more showing the value in the terminal, but as soon as I send a POST request to upload a document with Postman, again, I will get back that wrong key in the Terminal
+
+### Final Solution - Plain old whole full system (my local machine) restart.
