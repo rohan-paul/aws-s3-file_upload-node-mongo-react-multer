@@ -68,7 +68,7 @@ And I will get back a 200 OK response of the below form-data
 
 [Small note on .env file - When putting the value for "AWS_Uploaded_File_URL_LINK" - I have to include a forward slash ("/") after ]
 
-## Huge Issue I faced after changing the AWS credentials - The upload was failing and in Postman was giving error sourse something like "The AWS Key is not a valid one"
+### Issue I faced after changing the AWS credentials - Upload was failing and in Postman was getting error something like "The AWS Key is not found in our system"
 
 The app was taking old `process.env` variable rather than what I set inside the app in the .enf file - 29-Nov-2018
 
