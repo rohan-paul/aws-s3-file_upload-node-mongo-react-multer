@@ -76,11 +76,13 @@ The backend Route for document upload will not take what I was setting up in the
 
 So in the backend upload routes .js file I put the below to see what it was throwing.
 
+```js
 console.log(process.env.AWS_BUCKET_NAME);
 console.log(process.env.AWS_ACCESS_KEY_ID);
 console.log(process.env.AWS_SECRET_ACCESS_KEY);
 console.log(process.env.AWS_REGION);
 console.log(process.env.AWS_Uploaded_File_URL_LINK);
+```
 
 And saw it was taking a completely wrong AWS credentials.
 
