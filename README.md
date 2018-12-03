@@ -68,13 +68,40 @@ And I will get back a 200 OK response of the below form-data
 
 [Small note on .env file - When putting the value for "AWS_Uploaded_File_URL_LINK" - I have to include a forward slash ("/") after ]
 
-### Issue I faced after changing the AWS credentials - Upload was failing and in Postman was getting error something like "The AWS Key is not found in our system"
+### Bit Time-wasting Issue I faced after changing the AWS credentials - Upload was failing and in Postman was getting below error -
+
+```js
+{
+    "error": true,
+    "Message": {
+        "message": "The AWS Access Key Id you provided does not exist in our records.",
+        "code": "InvalidAccessKeyId",
+        "region": null,
+        "time": "2018-12-03T03:35:06.814Z",
+        "requestId": "CB10MJLKH';K329221D58F",
+        "extendedRequestId": "buSOYR4iBPxaCyNsn3WhggsgkkkUT:"669Y;g;fk;gffLuJe2596PO1464RRw+is7Gg=",
+        "statusCode": 403,
+        "retryable": false,
+        "retryDelay": 5.089012444180119
+    }
+}
+```
 
 The app was taking old `process.env` variable rather than what I set inside the app in the .enf file - 29-Nov-2018
 
 The backend Route for document upload will not take what I was setting up in the .env file rathar was taking from a catch.
 
-So in the backend upload routes .js file I put the below to see what it was throwing.
+So in the backend upload routes .js file I put the `console.log()` code to see what it was throwing.
+
+```js
+let s3bucket = new AWS.S3({
+	accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+	secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+	region: process.env.AWS_REGION
+});
+```
+
+Just below the above code in routes.js file put the below code
 
 ```js
 console.log(process.env.AWS_BUCKET_NAME);
@@ -86,10 +113,20 @@ console.log(process.env.AWS_Uploaded_File_URL_LINK);
 
 And saw it was taking a completely wrong AWS credentials.
 
-Then I ran the command `unset AWS_ACCESS_KEY_ID`, which was deleting the key and after doing this unset, then running
+Then first I ran the following commands
 
 `echo $AWS_ACCESS_KEY_ID`
 
-was no more showing the value in the terminal, but as soon as I send a POST request to upload a document with Postman, again, I will get back that wrong key in the Terminal
+`echo $AWS_SECRET_ACCESS_KEY`
+
+And both will give different credentials than what I have in .env file.
+
+Then I ran the command
+
+`unset AWS_ACCESS_KEY_ID`
+
+`unset AWS_SECRET_ACCESS_KEY`
+
+which was deleting the key and after doing this unset, then running `echo $AWS_ACCESS_KEY_ID` was no more showing the value in the terminal, but as soon as I send a POST request to upload a document with Postman, again, I will get back that wrong key in the Terminal
 
 ### Final Solution - Plain old whole full system (my local machine) restart.
