@@ -1,4 +1,4 @@
-The source code for my **[Medium Blog](https://medium.com/@paulrohan/file-upload-to-aws-s3-bucket-in-a-node-react-mongo-app-and-using-multer-72884322aada)**
+The source code for my **[Medium Blog](https://medium.com/@paulrohan/sending-verification-otp-to-user-email-with-mailgun-in-a-react-node-and-mongo-app-56ba7e4ac29)**
 
 A simple boilerplate project to implement AWS S3 file upload functionality in a Node, React and Mongo app. Using Multer for uploading file.
 
