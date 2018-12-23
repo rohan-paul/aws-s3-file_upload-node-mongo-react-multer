@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Row, Col, Card, CardHeader, CardText, CardBody } from "reactstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import VisitorModal from "./VisitorModal";
+import { Button } from "@material-ui/core";
 
 class FileUpload extends Component {
   state = {
@@ -76,9 +78,12 @@ class FileUpload extends Component {
                         <td>{document.document_id}</td>
                         <td>{document.description}</td>
                         <td>
-                          <a href={images[`${document.path}`]} target="_blank">
-                            View File
-                          </a>
+                          <Button color="primary" variant="contained">
+                            <VisitorModal
+                              linkForRender={document.fileLink}
+                              documentURL_Id={document._id}
+                            />
+                          </Button>
                         </td>
                         <td>
                           <Link
@@ -130,3 +135,13 @@ class FileUpload extends Component {
 }
 
 export default FileUpload;
+
+/*
+
+<td>
+                          <a href={images[`${document.path}`]} target="_blank">
+                            View File
+                          </a>
+                        </td>
+
+ */

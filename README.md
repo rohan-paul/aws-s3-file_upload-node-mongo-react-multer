@@ -2,7 +2,11 @@ The source code for my **[Medium Blog](https://medium.com/@paulrohan/file-upload
 
 A simple boilerplate project to implement AWS S3 file upload functionality in a Node, React and Mongo app. Using Multer for uploading file.
 
-The `master` branch has the code for AWS-S3 upload and the `disk-storage` branch has the working app for uploading file to the project root at the disk with no AWS-s3 connection.
+#### The `master` branch has the code for AWS-S3 upload and the `disk-storage` branch has the working app for uploading file to the project root at the disk with no AWS-s3 connection.
+
+#### The 'sending-otp-with-mailgun' branch has the code where, user will received an email containing a unique code, then he/she has to put that OTP back in the app, and only then will be able to view download a file.
+
+### Note all of these brances will ONLY work after proper AWS or mailgun credentials (API key, Secret Key etc) are are set up in the .env file or the .env.override file
 
 ### To launch this project in the local machine
 

@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 
-require('dotenv').config();
+const fs = require("fs");
+const dotenv = require("dotenv");
+const envConfig = dotenv.parse(fs.readFileSync(".env.override"));
+for (let k in envConfig) {
+  process.env[k] = envConfig[k];
+}
 var app = require('../app');
 var debug = require('debug')('mean-app:server');
 var http = require('http');
