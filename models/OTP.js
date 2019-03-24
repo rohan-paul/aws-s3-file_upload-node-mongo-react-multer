@@ -12,3 +12,4 @@ let otpSchema = new Schema(
 );
 
 module.exports = mongoose.model("Otp", otpSchema);
+

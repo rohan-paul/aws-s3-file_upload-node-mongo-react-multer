@@ -188,8 +188,6 @@ router.route("/visitor/:id").put((req, res, next) => {
 });
 
 // The route to only send an otp to the visitor who wants to download/view a public document
-// Here, I am using the sendOTPToVisitor function which is NOT using async.waterfall
-/*
 router.route("/sendotptovisitor").post((req, res, next) => {
   let visitorEmail = req.body.company_email;
   let newGeneratedOTP = shortid.generate();
@@ -200,34 +198,12 @@ router.route("/sendotptovisitor").post((req, res, next) => {
     generated_otp: newGeneratedOTP
   };
   let otpSavedinMongo = new OTP(thisOTP_Mongo);
-  otpSavedinMongo.save(async (err, newCode) => {
+  otpSavedinMongo.save((err, newCode) => {
     if (err) {
       console.log(err);
     } else {
-      await mailSender.sendOTPToVisitor(visitorEmail, newGeneratedOTP);
+      mailSender.sendOTPToVisitor(visitorEmail, newGeneratedOTP);
       res.status(200).send(newCode);
-    }
-  });
-});
-*/
-
-// Same route ("/sendotptovisitor") as above with try..catch block. In case of an error, the control jumps to the catch block.
-router.route("/sendotptovisitor").post((req, res, next) => {
-  let visitorEmail = req.body.company_email;
-  let newGeneratedOTP = shortid.generate();
-
-  // create the otp and mongo-related data for saving into OTP mongo schema
-  let thisOTP_Mongo = {
-    visitor_email: visitorEmail,
-    generated_otp: newGeneratedOTP
-  };
-  let otpSavedinMongo = new OTP(thisOTP_Mongo);
-  otpSavedinMongo.save(async (err, newCode) => {
-    try {
-      await mailSender.sendOTPToVisitor(visitorEmail, newGeneratedOTP);
-      res.status(200).send(newCode);
-    } catch (err) {
-      console.log("Error while sending email is ", err);
     }
   });
 });

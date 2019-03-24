@@ -1,4 +1,10 @@
-require("dotenv").config();
+// require("dotenv").config();
+const dotenv = require("dotenv");
+const fs = require("fs");
+const envConfig = dotenv.parse(fs.readFileSync(".env.override"));
+for (let k in envConfig) {
+  process.env[k] = envConfig[k];
+}
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
