@@ -1,6 +1,6 @@
 "use strict";
-var async = require("async");
-var mailCompose = require("./mailCompose");
+const async = require("async");
+const mailCompose = require("./mailCompose");
 
 var mailgun = require("mailgun-js")({
   apiKey: process.env.MAILGUN_API,
